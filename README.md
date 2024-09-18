@@ -1,1 +1,0 @@
-# gr_tech_task
