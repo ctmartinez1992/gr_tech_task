@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Django",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/booking/manage.py",
+            "args": [
+                "runserver",
+                "0.0.0.0:8020"
+            ],
+            "django": true,
+            "justMyCode": false,
+            "envFile": "${workspaceFolder}/booking/.env",
+        }
+    ]
+}
