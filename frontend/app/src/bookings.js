@@ -70,7 +70,7 @@ const BookingsTable = () => {
                 <thead>
                     <tr>
                         <th>Flat name</th>
-                        <th>ID</th>
+                        <th style={{ width: '200px' }}>ID</th>
                         <th>Checkin</th>
                         <th>Checkout</th>
                         <th>Previous booking ID</th>
@@ -79,11 +79,11 @@ const BookingsTable = () => {
                 <tbody>
                     {bookings.map((booking) => (
                         <tr key={booking.id}>
-                            <td>{booking.flat}</td>
-                            <td>{booking.id}</td>
+                            <td>{booking.flat_name}</td>
+                            <td><div style={{ textAlign: "center" }}>{booking.id}</div></td>
                             <td>{booking.checkin}</td>
                             <td>{booking.checkout}</td>
-                            <td>{booking.previous_booking_id || '-'}</td>
+                            <td><div style={{ textAlign: "center" }}>{booking.previous_booking || '-'}</div></td>
                         </tr>
                     ))}
                 </tbody>
