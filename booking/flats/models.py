@@ -13,4 +13,4 @@ class Booking(models.Model):
     checkout = models.DateField("Check-Out")
 
     class Meta:
-        ordering = ("checkin", "checkout")
+        ordering = ("id", "checkin")
