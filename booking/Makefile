@@ -29,3 +29,9 @@ start:
 clean:
 	find . -name '*.py[co]' -delete
 	find . -name '__pycache__'  -exec rm -r '{}' \;
+
+seed_flats:
+	python manage.py seed_flats
+
+seed_bookings:
+	python manage.py seed_bookings
