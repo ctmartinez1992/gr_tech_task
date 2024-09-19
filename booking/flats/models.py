@@ -9,8 +9,8 @@ class Flat(models.Model):
 
 class Booking(models.Model):
     flat = models.ForeignKey(Flat, on_delete=models.CASCADE, related_name="bookings", verbose_name="Flat")
-    checkin = models.DateField("Check-In", db_index=True)
+    checkin = models.DateField("Check-In")
     checkout = models.DateField("Check-Out")
 
     class Meta:
-        ordering = ("id", "checkin")
+        ordering = ("checkin", "checkout")
