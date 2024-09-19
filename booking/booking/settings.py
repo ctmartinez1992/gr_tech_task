@@ -15,7 +15,6 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "0.0.0.0"
-
 ]
 
 INSTALLED_APPS = [
@@ -111,4 +110,36 @@ CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20
+}
+
+LOGGING = {
+    'version': 1,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'factory': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+        },
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'root': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    }
 }
