@@ -55,25 +55,57 @@ const BookingsTable = () => {
         setCurrentPage(page);
     };
 
+    const renderPageButton = (page, isCurrent = false) => (
+        <button
+            key={page}
+            onClick={() => handlePageClick(page)}
+            style={{
+                margin: '0 5px',
+                padding: '5px 10px',
+                backgroundColor: isCurrent ? 'lightblue' : 'white',
+                color: 'black',
+                border: '1px solid #ccc',
+                cursor: 'pointer'
+            }}
+        >
+            {page}
+        </button>
+    );
+
+    const renderGap = (key) => <span key={key}>...</span>;
+
     const renderPageNumbers = () => {
         const pages = [];
-        for (let i = 1; i <= totalPages; i++) {
-            pages.push(
-                <button
-                    key={i}
-                    onClick={() => handlePageClick(i)}
-                    style={{
-                        margin: '0 5px',
-                        padding: '5px 10px',
-                        backgroundColor: currentPage === i ? 'lightblue' : 'white',
-                        border: '1px solid #ccc',
-                        cursor: 'pointer'
-                    }}
-                >
-                    {i}
-                </button>
-            );
+        const maxPages = 20;
+        const siblingsCount = 2; // Number of pages to show around the current page
+
+        const showLeftGap = currentPage > siblingsCount + 2;
+        const showRightGap = currentPage < totalPages - (siblingsCount + 1);
+
+        if (totalPages <= maxPages) {
+            for (let i = 1; i <= totalPages; i++) {
+                pages.push(renderPageButton(i, i === currentPage));
+            }
+        } else {
+            pages.push(renderPageButton(1, currentPage === 1));
+
+            if (showLeftGap) {
+                pages.push(renderGap('left-gap'));
+            }
+
+            const startPage = Math.max(2, currentPage - siblingsCount);
+            const endPage = Math.min(totalPages - 1, currentPage + siblingsCount);
+            for (let i = startPage; i <= endPage; i++) {
+                pages.push(renderPageButton(i, i === currentPage));
+            }
+
+            if (showRightGap) {
+                pages.push(renderGap('right-gap'));
+            }
+
+            pages.push(renderPageButton(totalPages, currentPage === totalPages));
         }
+
         return pages;
     };
 
