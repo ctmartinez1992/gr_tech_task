@@ -9,20 +9,25 @@ const BookingsTable = () => {
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [sortOrder, setSortOrder] = useState('asc');  // 'asc' or 'desc' sorting state
+    const [sortOrder, setSortOrder] = useState('none');
 
-    const pageSize = 20;  // Matches the Django pagination size
+    const pageSize = 20;  // Must match the Django pagination size.
 
     useEffect(() => {
         fetchBookings(currentPage, sortOrder);
     }, [currentPage, sortOrder]);
 
-    const fetchBookings = (page, order = 'checkin') => {
+    const fetchBookings = (page, order = 'none') => {
         setLoading(true);
 
-        const sortParam = order === 'asc' ? 'checkin' : '-checkin';
+        const sortParam = order === 'asc' ? 'checkin' : order === 'desc' ? '-checkin' : undefined;
+        const baseUrl = 'http://127.0.0.1:8020/api/bookings/?';
+        const getParams = new URLSearchParams();
+        getParams.append("page", page)
+        getParams.append("ordering", sortParam);
+        const completeUrl = baseUrl + getParams.toString();
 
-        axios.get(`http://127.0.0.1:8020/api/bookings/?page=${page}&ordering=${sortParam}`)
+        axios.get(completeUrl)
             .then(response => {
                 setBookings(response.data.results);
                 setTotalPages(Math.ceil(response.data.count / pageSize));
@@ -35,7 +40,15 @@ const BookingsTable = () => {
     };
 
     const handleSort = () => {
-        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        var newSortOrder = 'none';
+        if (sortOrder === 'asc') {
+            newSortOrder = 'desc';
+        } else if (sortOrder === 'desc') {
+            newSortOrder = 'none';
+        } else if (sortOrder === 'none') {
+            newSortOrder = 'asc';
+        }
+        setSortOrder(newSortOrder);
     };
 
     const handlePageClick = (page) => {
@@ -80,7 +93,7 @@ const BookingsTable = () => {
                         <th>Flat name</th>
                         <th style={{ width: '200px' }}>ID</th>
                         <th onClick={handleSort} style={{ cursor: 'pointer', width: '200px' }}>
-                            Checkin {sortOrder === 'asc' ? '▲' : '▼'}
+                            Checkin {sortOrder === 'asc' ? '▲' : sortOrder === 'desc' ? '▼' : ''}
                         </th>
                         <th style={{ width: '200px' }}>Checkout</th>
                         <th>Previous booking ID</th>
