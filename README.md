@@ -9,6 +9,12 @@
 ## Launch backend
 
 * cd booking
+
+Clone the `.env.sample` file and rename it to `.env`. Change the variables accordingly. You can set the following values for the standard port and host:
+
+* DATABASE_HOST=localhost
+* DATABASE_PORT=5432
+
 * make start
 * make migrate
 * make seed_flats (Optional: creates multiple Flat objects in the database with bookings)
